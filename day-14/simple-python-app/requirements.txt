@@ -1,1 +1,2 @@
 flask
+package2>=2.0.0
