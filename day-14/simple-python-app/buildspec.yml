@@ -2,32 +2,33 @@ version: 0.2
 
 env:
   parameter-store:
-    DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
+    DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/aes3232
     DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
     DOCKER_REGISTRY_URL: /myapp/docker-registry/url
+
 phases:
   install:
-    commands:
-      - echo Installing dependencies...
+    runtime-versions:
+      python: 3.11
+    commands:                   # Ensure this line is correctly indented
+      - cd ars3232-demo-1
+      - echo "Installing dependencies..."
       - npm install
-      
+
   pre_build:
     commands:
       - echo "Installing dependencies..."
-      - pip install -r day-14/requirements.txt
+      - pip install -r https://github.com/ars3232/14-Day/tree/main/day-14/requirements.txt
+
   build:
     commands:
-      - echo "Running tests..."
       - cd ars3232-demo-1
       - echo "Building Docker image..."
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/aes3232:latest" .
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/aes3232:latest"
+
   post_build:
     commands:
       - echo "Build completed successfully!"
-artifacts:
-  files:
-    - '**/*'
-  base-directory: ../aes3232
 
