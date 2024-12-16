@@ -10,7 +10,7 @@ phases:
   install:
     runtime-versions:
       python: 3.11
-    commands:                   # Ensure this line is correctly indented
+    commands:                   # Ensure this line is correctly indented 1
       - cd ars3232-demo-1
       - echo "Installing dependencies..."
       - npm install
